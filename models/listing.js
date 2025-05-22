@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
+const Review = require("./review.js");
 
 const listingSchema = new Schema({
     title: {
@@ -8,20 +9,28 @@ const listingSchema = new Schema({
     },
     description: String,
     image: {
-        type: String,
-        default:
-            "https://unsplash.com/photos/a-foggy-view-of-the-golden-gate-bridge-K2HIvGR9CPQ", // Default image URL
-        set: (v) => {
-            if (typeof v !== 'string') {
-                // If the value is not a string, return undefined
-                return undefined;
-            }
-            return v === "" ? undefined : v; // Set to undefined if empty string is passed
-        },
+        url: String,
+        filename: String,
     },
     price: Number,
     location: String,
     country: String,
+    reviews: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: "Review",
+        },
+    ],
+    owner: {
+        type: Schema.Types.ObjectId,
+            ref: "User",
+    },
+});
+
+listingSchema.post("findOneAndDelete", async(listing) =>{
+    if(listing){
+        await review.deleteMany({_id: {$in: listing.reviews}});
+    }
 });
 
 const Listing = mongoose.model("Listing", listingSchema);

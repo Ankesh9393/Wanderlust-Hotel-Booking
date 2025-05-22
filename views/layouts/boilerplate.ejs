@@ -11,11 +11,14 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap');
         </style>
+     <link rel="stylesheet" href="/css/rating.css">   
 </head>
 <body>
     <%- include("../includes/navbar.ejs") %>
 
-    <div class="container"><%- body %></div>
+    <div class="container">
+        <%- include("../includes/flash.ejs") %>
+        <%- body %></div>
 
     <%- include("../includes/footer.ejs") %>
     
